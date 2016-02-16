@@ -11,9 +11,9 @@ class Migration
 
   def run
     if @columns == "delete"
-      this.drop
+      self.drop
     else
-      this.create
+      self.create
     end
   end
 
