@@ -1,4 +1,3 @@
-
 require_relative 'db_connection'
 
 class Migration
