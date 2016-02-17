@@ -15,13 +15,13 @@ class DBConnection
     @db
   end
 
-  def self.reset
+  def self.reset(bool = false)
     commands = [
       "rm '#{DB_FILE}'",
       "cat '#{SQL_FILE}' | sqlite3 '#{DB_FILE}'"
     ]
 
-    commands.each { |command| `#{command}` }
+    commands.each { |command| `#{command}` } if bool
     DBConnection.open(DB_FILE)
   end
 

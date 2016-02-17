@@ -1,9 +1,10 @@
-require 'db_connection'
 require 'active_support/inflector'
-require 'searchable'
+require_relative 'db_connection'
+require_relative 'searchable'
+require_relative 'associatable'
 
 
-class SQLObject
+class RubyRM
 
   def self.columns
     unless @columns

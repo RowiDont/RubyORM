@@ -1,15 +1,15 @@
-require 'searchable'
+require_relative '../RubyRM/searchable'
 
 describe 'Searchable' do
   before(:each) { DBConnection.reset }
   after(:each) { DBConnection.reset }
 
   before(:all) do
-    class Ship < SQLObject
+    class Ship < RubyRM
       finalize!
     end
 
-    class Pilot < SQLObject
+    class Pilot < RubyRM
       finalize!
     end
   end

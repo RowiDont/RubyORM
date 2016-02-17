@@ -1,4 +1,4 @@
-require 'associatable'
+require_relative '../RubyRM/associatable'
 
 describe 'AssocOptions' do
   describe 'BelongsToOptions' do
@@ -47,15 +47,15 @@ describe 'AssocOptions' do
 
   describe 'AssocOptions' do
     before(:all) do
-      class Ship < SQLObject
+      class Ship < RubyRM
         self.finalize!
       end
 
-      class Pilot < SQLObject
+      class Pilot < RubyRM
         self.finalize!
       end
 
-      class Rank < SQLObject
+      class Rank < RubyRM
         self.finalize!
       end
     end
@@ -83,19 +83,19 @@ describe 'Associatable' do
   after(:each) { DBConnection.reset }
 
   before(:all) do
-    class Ship < SQLObject
+    class Ship < RubyRM
       belongs_to :pilot, foreign_key: :pilot_id
 
       finalize!
     end
 
-    class Pilot < SQLObject
+    class Pilot < RubyRM
       has_many :ships, foreign_key: :pilot_id
       belongs_to :rank
       finalize!
     end
 
-    class Rank < SQLObject
+    class Rank < RubyRM
       has_many :pilots, foreign_key: :rank_id
 
       finalize!
@@ -153,7 +153,7 @@ describe 'Associatable' do
 
   describe '::assoc_options' do
     it 'defaults to empty hash' do
-      class TempClass < SQLObject
+      class TempClass < RubyRM
       end
 
       expect(TempClass.assoc_options).to eq({})

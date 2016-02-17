@@ -24,6 +24,6 @@ module Searchable
   end
 end
 
-class SQLObject
+class RubyRM
   extend Searchable
 end

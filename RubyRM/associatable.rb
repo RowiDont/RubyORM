@@ -99,6 +99,6 @@ module Associatable
   end
 end
 
-class SQLObject
+class RubyRM
   extend Associatable
 end
