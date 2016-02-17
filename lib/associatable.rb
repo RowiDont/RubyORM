@@ -1,7 +1,6 @@
 require_relative 'searchable'
 require 'active_support/inflector'
 
-# Phase IIIa
 class AssocOptions
   attr_accessor(
     :foreign_key,
@@ -43,7 +42,6 @@ class HasManyOptions < AssocOptions
 end
 
 module Associatable
-  # Phase IIIb
   def belongs_to(name, options = {})
     assoc_options[name] = BelongsToOptions.new(name, options)
     relation = assoc_options[name]
@@ -55,7 +53,6 @@ module Associatable
   end
 
   def has_many(name, options = {})
-    # p options
     assoc_options[name] = HasManyOptions.new(name, self.to_s, options)
     relation = assoc_options[name]
     define_method(name) do
@@ -63,6 +60,37 @@ module Associatable
       id = self.send(relation.primary_key)
       relation.foreign_key
       has_many_class.where(relation.foreign_key => id)
+    end
+  end
+
+  def has_one_through(name, through_name, source_name)
+    through_options = assoc_options[through_name]
+    define_method(name) do
+
+      class1 = through_options.model_class
+      table1 = through_options.table_name
+      key1 = through_options.primary_key
+
+      source_options = class1.assoc_options[source_name]
+      class2 = source_options.model_class
+      table2 = source_options.table_name
+      key2 = source_options.foreign_key
+
+      id = self.send(through_options.foreign_key)
+
+      results = DBConnection.execute(<<-SQL, id)
+        SELECT
+          #{source_options.table_name}.*
+        FROM
+          #{table1}
+        JOIN
+          #{table2} ON #{table1}.#{key2} = #{table2}.#{key1}
+        WHERE
+          #{table1}.#{key1} = ?
+      SQL
+
+      class2.parse_all(results).first
+
     end
   end
 
