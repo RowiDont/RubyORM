@@ -4,7 +4,7 @@ require_relative 'searchable'
 
 
 class SQLObject
-  
+
   def self.columns
     unless @columns
       result = DBConnection.execute2(<<-SQL)
@@ -133,5 +133,35 @@ class SQLObject
     else
       self.update
     end
+  end
+
+  def self.first
+    result = DBConnection.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        #{self.table_name}
+      LIMIT
+        1
+    SQL
+
+    result = parse_all(result).first
+    result ? result : nil
+  end
+
+  def self.last
+    result = DBConnection.execute(<<-SQL)
+      SELECT
+        *
+      FROM
+        #{self.table_name}
+      ORDER BY
+        id DESC
+      LIMIT
+        1
+    SQL
+
+    result = parse_all(result).first
+    result ? result : nil
   end
 end

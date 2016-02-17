@@ -6,11 +6,11 @@ require_relative 'migrations'
 # create_users.run
 
 class User < SQLObject
-  
+
 end
 
 # debugger
 
 me = User.new("name" => "rand").save
 
-puts User.all
+puts User.last.name
