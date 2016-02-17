@@ -1,43 +1,49 @@
-CREATE TABLE cats (
+CREATE TABLE pilots (
   id INTEGER PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  owner_id INTEGER,
+  commander_id INTEGER,
+  rank_id INTEGER,
 
-  FOREIGN KEY(owner_id) REFERENCES human(id)
+  FOREIGN KEY(rank_id) REFERENCES rank(id),
+  FOREIGN KEY(commander_id) REFERENCES pilot(id)
 );
 
-CREATE TABLE humans (
+CREATE TABLE ships (
   id INTEGER PRIMARY KEY,
-  fname VARCHAR(255) NOT NULL,
-  lname VARCHAR(255) NOT NULL,
-  house_id INTEGER,
+  name VARCHAR(255) NOT NULL,
+  pilot_id INTEGER,
 
-  FOREIGN KEY(house_id) REFERENCES human(id)
+  FOREIGN KEY(pilot_id) REFERENCES pilot(id)
 );
 
-CREATE TABLE houses (
+CREATE TABLE ranks (
   id INTEGER PRIMARY KEY,
-  address VARCHAR(255) NOT NULL
+  name VARCHAR(255) NOT NULL
 );
 
 INSERT INTO
-  houses (id, address)
+  ships (id, name, pilot_id)
 VALUES
-  (1, "26th and Guerrero"), (2, "Dolores and Market");
+  (1, "Battlestar Galactica", 1),
+  (2, "Viper X190", 3),
+  (3, "Viper T191", 4),
+  (4, "Viper T197", 5),
+  (5, "Maron Transport", 2);
 
 INSERT INTO
-  humans (id, fname, lname, house_id)
+  pilots (id, name, rank_id, commander_id)
 VALUES
-  (1, "Devon", "Watts", 1),
-  (2, "Matt", "Rubens", 1),
-  (3, "Ned", "Ruggeri", 2),
-  (4, "Catless", "Human", NULL);
+  (1, "William Adama", 1, NULL),
+  (2, "Saul Tigh", 2, 1),
+  (3, "Kara 'Starbuck' Thrace", 3, 2),
+  (4, "Ned Ruggeri", 4, 3),
+  (5, "Lee Adama", 4, 3);
 
 INSERT INTO
-  cats (id, name, owner_id)
+  ranks (id, name)
 VALUES
-  (1, "Breakfast", 1),
-  (2, "Earl", 2),
-  (3, "Haskell", 3),
-  (4, "Markov", 3),
-  (5, "Stray Cat", NULL);
+  (1, "Commander"),
+  (2, "Executive Officer"),
+  (3, "Captain"),
+  (4, "Lieutenant"),
+  (5, "Janitor");

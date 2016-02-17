@@ -1,6 +1,6 @@
-require_relative 'db_connection'
+require 'db_connection'
 require 'active_support/inflector'
-require_relative 'searchable'
+require 'searchable'
 
 
 class SQLObject
